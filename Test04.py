@@ -11,16 +11,24 @@ def load_page(url):
 
 
 def format_html(html):
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, "lxml")
     var = soup.find('ol', {'class': 'grid_view'})
     movie_list = []
     for movie in var.findAll('li'):
         title = movie.find('div', {'class': 'hd'}).find('span', {'class': 'title'}).getText()
-        movie_list.append(title)
+        pic = movie.find('div', {'class': 'pic'}).find('a').find('img')['src']
+        movie_list.append({'title': title, 'pic': pic})
 
     if get_next(html):
         return movie_list, BASE_URL + get_next(html)
     return movie_list, None
+
+
+def download_img(movie):
+    print(movie)
+    img = requests.get(movie['pic']).content
+    with codecs.open('./pic/' + movie['title'] + '.jpg', 'wb')as f:
+        f.write(img)
 
 
 def get_next(html):
@@ -36,8 +44,9 @@ def main():
     with codecs.open('movies', 'wb', encoding='utf-8')as fp:
         while next_url:
             movies, next_url = format_html(load_page(next_url))
-            fp.write(u'{movies}\n'.format(movies='\n'.join(movies)))
-            print(movies)
+            for movie in movies:
+                fp.write(u'{movie}\n'.format(movie=''.join(movie['title'])))
+                download_img(movie)
 
 
 if __name__ == '__main__':
