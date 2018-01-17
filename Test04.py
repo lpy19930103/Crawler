@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import codecs
+import os
 
 BASE_URL = 'http://movie.douban.com/top250'
 
@@ -26,8 +27,11 @@ def format_html(html):
 
 def download_img(movie):
     print(movie)
+    file_path = './pic/'
+    if not os.path.exists(file_path):
+        os.makedirs(file_path)
     img = requests.get(movie['pic']).content
-    with codecs.open('./pic/' + movie['title'] + '.jpg', 'wb')as f:
+    with codecs.open(file_path + movie['title'] + '.jpg', 'wb')as f:
         f.write(img)
 
 
@@ -41,12 +45,12 @@ def get_next(html):
 
 def main():
     next_url = BASE_URL
-    with codecs.open('movies', 'wb', encoding='utf-8')as fp:
+    with codecs.open('movies.text', 'wb', encoding='utf-8')as fp:
         while next_url:
             movies, next_url = format_html(load_page(next_url))
             for movie in movies:
                 fp.write(u'{movie}\n'.format(movie=''.join(movie['title'])))
-                download_img(movie)
+                # download_img(movie)
 
 
 if __name__ == '__main__':
