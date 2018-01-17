@@ -10,13 +10,13 @@ def getTitle(url):
         return None
     try:
         bsObj = BeautifulSoup(html.read())
-        title = bsObj.body.h1
+        title = bsObj.head.title
     except AttributeError as e:
         return None
     return title
 
 
-title = getTitle("http://pythonscraping.com/pages/page1.html")
+title = getTitle("http://open.uc.cn/")
 
 if title:
     print(title)
