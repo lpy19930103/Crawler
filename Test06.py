@@ -32,19 +32,23 @@ def get_top_30(url):
 
 def main():
     global num
+    all = []
     top30List = get_top_30(TOP_30_URL % num)
-    # while top30List:
-    #     try:
-    #         time.sleep(10)
-    #         num += 1
-    #         top30List = get_top_30(TOP_30_URL % num)
-    #     except Exception as e:
-    #         print(e)
-    #         break
+    all.append(top30List)
+    while top30List:
+        try:
+            time.sleep(10)
+            num += 1
+            top30List = get_top_30(TOP_30_URL % num)
+            all.append(top30List)
+        except Exception as e:
+            print(e)
+            break
 
     with codecs.open("TOP30.txt", "wb", encoding='utf-8') as f:
-        for Top30Item in top30List:
-            f.write(Top30Item + '\n')
+        for Top30Item in all:
+            f.write(u'{Top30Item}\n'.format(Top30Item='\n'.join(Top30Item)))
+            # f.write(Top30Item + '\n')
 
 
 if __name__ == '__main__':
