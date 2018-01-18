@@ -12,7 +12,7 @@ def load_page(url):
 
 
 def format_html(html):
-    soup = BeautifulSoup(html, "lxml")
+    soup = BeautifulSoup(html)
     var = soup.find('ol', {'class': 'grid_view'})
     movie_list = []
     for movie in var.findAll('li'):
@@ -45,7 +45,7 @@ def get_next(html):
 
 def main():
     next_url = BASE_URL
-    with codecs.open('movies.text', 'wb', encoding='utf-8')as fp:
+    with codecs.open('movies.txt', 'wb', encoding='utf-8')as fp:
         while next_url:
             movies, next_url = format_html(load_page(next_url))
             for movie in movies:
