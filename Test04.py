@@ -1,3 +1,4 @@
+#下载简书文章中的图片
 import requests
 from bs4 import BeautifulSoup
 import codecs

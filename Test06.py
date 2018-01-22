@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#获取简书30日热门文章
 from bs4 import BeautifulSoup
 import requests
 import json

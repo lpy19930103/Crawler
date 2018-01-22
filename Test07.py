@@ -1,3 +1,4 @@
+#根据key查询github java star最多的库
 import requests
 from bs4 import BeautifulSoup
 import time
@@ -35,7 +36,7 @@ def main():
         try:
             page += 1
             query()
-            time.sleep(5)
+            time.sleep(3)
         except Exception as e:
             print(e)
 
